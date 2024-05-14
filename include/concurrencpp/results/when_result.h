@@ -1,6 +1,7 @@
 #ifndef CONCURRENCPP_WHEN_RESULT_H
 #define CONCURRENCPP_WHEN_RESULT_H
 
+#include "concurrencpp/platform_defs.h"
 #include "concurrencpp/errors.h"
 #include "concurrencpp/results/resume_on.h"
 #include "concurrencpp/results/lazy_result.h"
@@ -165,9 +166,7 @@ namespace concurrencpp {
     };
 
 
-lazy_result<void> AwaitOther(details::when_result_helper::when_all_awaitable&& awaitable) {
-    co_await awaitable;
-}
+lazy_result<void> AwaitOther(details::when_result_helper::when_all_awaitable&& awaitable);
     
 }  // namespace concurrencpp
 

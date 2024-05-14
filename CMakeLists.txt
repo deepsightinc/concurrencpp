@@ -29,6 +29,7 @@ set(concurrencpp_sources
     source/results/impl/consumer_context.cpp
     source/results/impl/result_state.cpp
     source/results/impl/shared_result_state.cpp
+    source/results/when_result.cpp
     source/runtime/runtime.cpp
     source/threads/async_lock.cpp
     source/threads/async_condition_variable.cpp
