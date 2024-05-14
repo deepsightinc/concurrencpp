@@ -56,7 +56,7 @@ namespace concurrencpp {
         static result<return_type> bulk_submit_bridge(std::vector<concurrencpp::task>& accumulator, callable_type callable) {
 
             accumulating_awaitable awaitable{accumulator};
-            co_await awaitable;
+            co_await (awaitable);
             co_return callable();
         }
 
