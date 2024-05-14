@@ -22,7 +22,7 @@ namespace concurrencpp {
 
         accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) noexcept : accumulator(accumulator) {}
 
-        constexpr bool await_ready() const noexcept {
+        bool await_ready() const noexcept {
             return false;
         }
 
