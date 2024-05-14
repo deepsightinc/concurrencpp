@@ -3,6 +3,7 @@
 
 #include "concurrencpp/task.h"
 #include "concurrencpp/results/result.h"
+#include "concurrencpp/coroutines/coroutine.h"
 
 #include <span>
 #include <vector>
@@ -16,7 +17,7 @@ namespace concurrencpp::details {
 
 
 namespace concurrencpp {
-    class CRCPP_API accumulating_awaitable {
+    class CRCPP_API accumulating_awaitable : public details::suspend_always{
        public:
         std::vector<concurrencpp::task>& accumulator;
         bool m_interrupted = false;
