@@ -20,7 +20,9 @@ namespace concurrencpp {
         std::vector<concurrencpp::task>& accumulator;
         bool m_interrupted = false;
 
-        accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) : accumulator(accumulator) {}
+        explicit accumulating_awaitable( std::vector<concurrencpp::task>& accumulator) : accumulator(accumulator) {}
+        
+        accumulating_awaitable() = delete;
 
         bool await_ready() {
             return false;
