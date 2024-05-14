@@ -20,13 +20,13 @@ namespace concurrencpp {
         std::vector<concurrencpp::task>& accumulator;
         bool m_interrupted = false;
 
-        accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) noexcept : accumulator(accumulator) {}
+        accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) : accumulator(accumulator) {}
 
-        bool await_ready() const noexcept {
+        bool await_ready() {
             return false;
         }
 
-        void await_suspend(details::coroutine_handle<void> coro_handle) noexcept {
+        void await_suspend(details::coroutine_handle<void> coro_handle) {
             try {
                 accumulator.emplace_back(details::await_via_functor(coro_handle, &m_interrupted));
             } catch (...) {
@@ -34,7 +34,7 @@ namespace concurrencpp {
             }
         }
 
-        void await_resume() const {
+        void await_resume()  {
             if (m_interrupted) {
                 throw errors::broken_task("");
             }
