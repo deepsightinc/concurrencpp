@@ -14,7 +14,33 @@ namespace concurrencpp::details {
     CRCPP_API std::string make_executor_worker_name(std::string_view executor_name);
 }  // namespace concurrencpp::details
 
+
 namespace concurrencpp {
+    struct accumulating_awaitable {
+        std::vector<concurrencpp::task>& accumulator;
+        bool m_interrupted = false;
+
+        accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) noexcept : accumulator(accumulator) {}
+
+        constexpr bool await_ready() const noexcept {
+            return false;
+        }
+
+        void await_suspend(details::coroutine_handle<void> coro_handle) noexcept {
+            try {
+                accumulator.emplace_back(details::await_via_functor(coro_handle, &m_interrupted));
+            } catch (...) {
+                // do nothing. ~await_via_functor will resume the coroutine and throw an exception.
+            }
+        }
+
+        void await_resume() const {
+            if (m_interrupted) {
+                throw errors::broken_task("");
+            }
+        }
+    };
+
     class CRCPP_API executor {
 
        private:
@@ -22,31 +48,6 @@ namespace concurrencpp {
         static result<return_type> submit_bridge(executor_tag, executor_type&, callable_type callable, argument_types... arguments) {
             co_return callable(arguments...);
         }
-
-        struct accumulating_awaitable {
-            std::vector<concurrencpp::task>& accumulator;
-            bool m_interrupted = false;
-
-            accumulating_awaitable(std::vector<concurrencpp::task>& accumulator) noexcept : accumulator(accumulator) {}
-
-            constexpr bool await_ready() const noexcept {
-                return false;
-            }
-
-            void await_suspend(details::coroutine_handle<void> coro_handle) noexcept {
-                try {
-                    accumulator.emplace_back(details::await_via_functor(coro_handle, &m_interrupted));
-                } catch (...) {
-                    // do nothing. ~await_via_functor will resume the coroutine and throw an exception.
-                }
-            }
-
-            void await_resume() const {
-                if (m_interrupted) {
-                    throw errors::broken_task("");
-                }
-            }
-        };
 
         template<class callable_type, class return_type = typename std::invoke_result_t<callable_type>>
         static result<return_type> bulk_submit_bridge(std::vector<concurrencpp::task>& accumulator, callable_type callable) {
