@@ -77,7 +77,7 @@ namespace concurrencpp::details {
             }
         }
 
-        class when_all_awaitable {
+        class when_all_awaitable : public suspend_always {
 
            private:
             result_state_base& m_state;
