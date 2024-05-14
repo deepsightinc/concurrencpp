@@ -44,7 +44,7 @@ namespace concurrencpp {
                     break;
                 }
 
-                co_await await_impl(resume_executor, lock);
+                co_await lazy_result<void>(await_impl(resume_executor, lock));
             }
         }
 
