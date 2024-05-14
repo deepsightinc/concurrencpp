@@ -48,7 +48,6 @@ namespace concurrencpp {
             }
         }
 
-       private:
         std::mutex m_lock;
         details::slist<details::cv_awaiter> m_awaiters;
 
