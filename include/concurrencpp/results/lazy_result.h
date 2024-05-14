@@ -8,7 +8,7 @@
 
 namespace concurrencpp {
     template<class type>
-    class lazy_result {
+    class CRCPP_API lazy_result {
 
        private:
         details::coroutine_handle<details::lazy_result_state<type>> m_state;
