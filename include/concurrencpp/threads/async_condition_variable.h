@@ -30,7 +30,12 @@ namespace concurrencpp::details {
     };
 }  // namespace concurrencpp::details
 
+
 namespace concurrencpp {
+
+lazy_result<void> GetAwaitable(lazy_result<void>&& awaitable);
+
+
     class CRCPP_API async_condition_variable {
 
         friend details::cv_awaiter;
@@ -44,7 +49,7 @@ namespace concurrencpp {
                     break;
                 }
 
-                co_await await_impl(resume_executor, lock);
+                co_return GetAwaitable(await_impl(resume_executor, lock));
             }
         }
 
