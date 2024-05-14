@@ -30,6 +30,12 @@ namespace concurrencpp {
         explicit accumulating_awaitable( std::vector<concurrencpp::task>& accumulator) : accumulator(accumulator) {}
         
         accumulating_awaitable() = delete;
+        accumulating_awaitable(const accumulating_awaitable&) = delete;
+        accumulating_awaitable(accumulating_awaitable&&) = delete;
+
+        accumulating_awaitable& operator=(const accumulating_awaitable&) = delete;
+        accumulating_awaitable& operator=(accumulating_awaitable&&) = delete;
+
 
         bool await_ready() {
             return false;
