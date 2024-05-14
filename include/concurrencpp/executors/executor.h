@@ -39,6 +39,9 @@ namespace concurrencpp {
                 throw errors::broken_task("");
             }
         }
+        accumulating_awaitable operator co_await() {
+            return *this;
+        }
     };
 
     class CRCPP_API executor {
