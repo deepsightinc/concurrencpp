@@ -34,6 +34,11 @@ void cv_awaiter::resume() noexcept {
     async_condition_variable
 */
 
+lazy_result<void> GetAwaitable(lazy_result<void>&& awaitable){
+  co_await lazy_result<void>(std::move(awaitable));
+}
+
+
 async_condition_variable::~async_condition_variable() noexcept {
 #ifdef CRCPP_DEBUG_MODE
     std::unique_lock<std::mutex> lock(m_lock);
