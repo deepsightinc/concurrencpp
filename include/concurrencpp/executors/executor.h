@@ -16,7 +16,8 @@ namespace concurrencpp::details {
 
 
 namespace concurrencpp {
-    struct CRCPP_API accumulating_awaitable {
+    class CRCPP_API accumulating_awaitable {
+       public:
         std::vector<concurrencpp::task>& accumulator;
         bool m_interrupted = false;
 
@@ -41,9 +42,6 @@ namespace concurrencpp {
                 throw errors::broken_task("");
             }
         }
-        accumulating_awaitable operator co_await() {
-            return *this;
-        }
     };
 
     class CRCPP_API executor {
@@ -57,8 +55,7 @@ namespace concurrencpp {
         template<class callable_type, class return_type = typename std::invoke_result_t<callable_type>>
         static result<return_type> bulk_submit_bridge(std::vector<concurrencpp::task>& accumulator, callable_type callable) {
 
-            accumulating_awaitable awaitable{accumulator};
-            co_await (awaitable);
+            co_await accumulating_awaitable{accumulator};
             co_return callable();
         }
 
