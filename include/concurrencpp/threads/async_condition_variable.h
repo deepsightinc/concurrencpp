@@ -5,7 +5,7 @@
 #include "concurrencpp/threads/async_lock.h"
 #include "concurrencpp/results/lazy_result.h"
 #include "concurrencpp/coroutines/coroutine.h"
-#include "concurrencpp/forward_declarations.h"
+//#include "concurrencpp/forward_declarations.h"
 #include <coroutine>
 
 namespace concurrencpp::details {
@@ -44,7 +44,7 @@ namespace concurrencpp {
                     break;
                 }
 
-                co_await lazy_result<void>(await_impl(resume_executor, lock));
+                co_await await_impl(resume_executor, lock);
             }
         }
 
