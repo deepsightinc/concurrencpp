@@ -16,7 +16,7 @@ namespace concurrencpp::details {
 
 
 namespace concurrencpp {
-    struct accumulating_awaitable {
+    struct CRCPP_API accumulating_awaitable {
         std::vector<concurrencpp::task>& accumulator;
         bool m_interrupted = false;
 
