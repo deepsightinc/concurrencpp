@@ -19,7 +19,7 @@ namespace concurrencpp::details {
 namespace concurrencpp {
 
     template<class X>
-    class CRCPP_API accumulating_awaitable : public details::suspend_always{
+    class accumulating_awaitable : public details::suspend_always{
         private:
         X dummy;
 
@@ -56,6 +56,11 @@ namespace concurrencpp {
         }
     };
 
+    template<class X>
+    auto await_on(std::vector<concurrencpp::task>& accumulator) {
+        return accumulating_awaitable<X>(accumulator);
+    }
+
     class CRCPP_API executor {
 
        private:
@@ -67,7 +72,7 @@ namespace concurrencpp {
         template<class callable_type, class return_type = typename std::invoke_result_t<callable_type>>
         static result<return_type> bulk_submit_bridge(std::vector<concurrencpp::task>& accumulator, callable_type callable) {
 
-            co_await accumulating_awaitable<int>{accumulator};
+            co_await await_on<int>(accumulator);
             co_return callable();
         }
 
