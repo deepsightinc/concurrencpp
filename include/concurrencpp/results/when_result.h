@@ -163,6 +163,9 @@ namespace concurrencpp {
         when_any_result(when_any_result&&) noexcept = default;
         when_any_result& operator=(when_any_result&&) noexcept = default;
     };
+
+        
+    
 }  // namespace concurrencpp
 
 namespace concurrencpp::details {
@@ -173,6 +176,7 @@ namespace concurrencpp::details {
             co_await when_result_helper::when_all_awaitable {state_ref};
         }
 
+        (void)lazy_result<collection_type>();
         co_await resume_on(resume_executor);
         co_return std::move(collection);
     }
