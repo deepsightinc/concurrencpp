@@ -6,6 +6,7 @@
 #include "concurrencpp/results/lazy_result.h"
 #include "concurrencpp/coroutines/coroutine.h"
 #include "concurrencpp/forward_declarations.h"
+#include <coroutine>
 
 namespace concurrencpp::details {
     class CRCPP_API cv_awaiter {
