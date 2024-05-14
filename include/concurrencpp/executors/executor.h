@@ -52,7 +52,8 @@ namespace concurrencpp {
         template<class callable_type, class return_type = typename std::invoke_result_t<callable_type>>
         static result<return_type> bulk_submit_bridge(std::vector<concurrencpp::task>& accumulator, callable_type callable) {
 
-            co_await accumulating_awaitable(accumulator);
+            accumulating_awaitable awaitable{accumulator};
+            co_await awaitable;
             co_return callable();
         }
 
